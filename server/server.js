@@ -51,7 +51,14 @@ app.listen(PORT, () => {
 
 app.get('/artist', (req, res) => {
     console.log(`In /songs GET`);
-    res.send(artistList);
+    const queryText = `SELECT * FROM "artist" ORDER BY "birthdate" DESC;`;
+    pool.query(queryText).then((result) => {
+        console.log(result);
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log(error);
+        res.sendStatus(500);
+    });
 });
 
 app.post('/artist', (req, res) => {
