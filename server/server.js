@@ -12,63 +12,10 @@ app.listen(PORT, () => {
     console.log('listening on port', PORT)
 });
 
+let artistRouter = require('./routes/artist_router');
+app.use('/artist', artistRouter);
 
-
-app.get('/artist', (req, res) => {
-    console.log(`In /songs GET`);
-    const queryText = `SELECT * FROM "artist" ORDER BY "birthdate" DESC;`;
-    pool.query(queryText).then((result) => {
-        console.log(result);
-        res.send(result.rows);
-    }).catch((error) => {
-        console.log(error);
-        res.sendStatus(500);
-    });
-});
-
-app.post('/artist', (req, res) => {
-    console.log(req.body);
-
-    const queryText = `INSERT INTO "artist"("name", "birthdate")
-    VALUES($1, $2);`;
-
-    pool.query(queryText, [req.body.name, req.body.birthdate])
-    .then((result) => {
-        console.log(result);
-        res.sendStatus(201);
-    }).catch((error) => {
-        console.log(error);
-        res.sendStatus(500);
-    });
-});
-
-app.get('/song', (req, res) => {
-    console.log(`In /songs GET`);
-
-    const queryText = `SELECT * FROM "song" ORDER BY "title";`;
-    pool.query(queryText).then((result) => {
-        console.log(result);
-        res.send(result.rows);
-    }).catch((error) => {
-        console.log(error);
-        res.sendStatus(500);
-    });
-});
-
-app.post('/song', (req, res) => {
-    console.log(req.body);
-
-    const queryText = `INSERT INTO "song"("title", "length", "released")
-    VALUES($1, $2, $3);`;
-
-    pool.query(queryText, [req.body.title, req.body.length, req.body.released])
-    .then((result) => {
-        console.log(result);
-        res.sendStatus(201);
-    }).catch((error) => {
-        console.log(error);
-        res.sendStatus(500);
-    })
-});
+let songRouter = require('./routes/song_router.js');
+app.use('/song', songRouter);
 
 
