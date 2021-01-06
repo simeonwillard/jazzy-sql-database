@@ -12,7 +12,7 @@ app.listen(PORT, () => {
     console.log('listening on port', PORT)
 });
 
-let artistRouter = require('./routes/artist_router');
+let artistRouter = require('./routes/artist_router.js');
 app.use('/artist', artistRouter);
 
 let songRouter = require('./routes/song_router.js');
